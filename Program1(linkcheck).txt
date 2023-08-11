@@ -1,0 +1,30 @@
+import java.util.regex.*;
+import java.util.*;  
+
+public class Program1{
+    
+    public static void Check(String link) {
+        // Regular expression to match Wikipedia URLs
+        String pattern1 = "https?://([a-z]{2,3}.)?wikipedia.org/wiki/.+";
+
+        if (!Pattern.matches(pattern1, link)) {
+            throw new IllegalArgumentException("Link is not a valid Wikipedia link.");
+        }
+    }
+    public static void main(String[] args) {
+        Scanner sc=new Scanner(System.in);  
+        System.out.print("Enter the link to check if it is from wiki or not : ");
+        String link= sc.nextLine();  
+        String input=link;
+        //String link= "https://en.wikipedia.org/wiki/Java_(programming_language)";
+        
+        try {
+            Check(input);
+            System.out.println("Valid Wikipedia link.");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid Wikipedia link: " + e.getMessage());
+        }
+    }
+
+    
+}

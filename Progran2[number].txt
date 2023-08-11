@@ -1,0 +1,21 @@
+import java.util.Scanner;
+
+public class Program2{
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter an integer between 1 and 3: ");
+        int n = scanner.nextInt();
+        Checknumber(n);
+        scanner.close();
+    }
+
+    public static void Checknumber(int n) {
+        if (n < 1 || n > 3) {
+            throw new IllegalArgumentException("Integer must be between 1 and 3.");
+        }
+        else
+        {
+           System.out.println("You entered a valid integer: " + n); 
+        }
+    }
+}

@@ -1,0 +1,74 @@
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import java.io.IOException;
+import java.util.HashSet;
+
+public class WebpageLinkScraper {
+    public static void Check(String link) {
+        // Regular expression to match Wikipedia URLs
+        String pattern1 = "https?://([a-z]{2,3}.)?wikipedia.org/wiki/.+";
+
+        if (!Pattern.matches(pattern1, link)) {
+            throw new IllegalArgumentException("Link is not a valid Wikipedia link.");
+        }
+    public static void main(String[] args) {
+       Scanner sc=new Scanner(System.in);  
+        System.out.print("Enter the link to check if it is from wiki or not : ");
+        String link= sc.nextLine();  
+        String input=link;
+        
+        //Checking if wiki link or not
+        try {
+            Check(input);
+            System.out.println("Valid Wikipedia link.");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid Wikipedia link: " + e.getMessage());
+        }
+   
+        //creating program3
+        try {
+            String[] links = scrape(input);
+            System.out.println("Scraped links:");
+            for (String link : links) {
+                System.out.println(link);
+            }
+        } catch (IOException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+         //creating program4
+         System.out.println("Created scrape link for every link which we get now ................................");
+         try {
+             for(String inputlink : links){
+                  String[] newlinks = scrape(inputlink);
+             }
+            System.out.println("Scraped  nested links:");
+            for (String link : newlinks) {
+                System.out.println(link);
+            }
+        } catch (IOException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        
+        
+        
+    }
+
+    public static String[] scrape(String url) throws IOException {
+        Document document = Jsoup.connect(url).get();
+        Elements linkElements = document.select("a[href]"); // Select all <a> elements with href attribute
+        HashSet<String> uniqueLinks = new HashSet<>();
+        
+        for (Element linkElement : linkElements) {
+            String link = linkElement.attr("abs:href"); // Get the absolute URL of the link
+            
+            if (!link.isEmpty() && uniqueLinks.size() < 10) {
+                uniqueLinks.add(link);
+            }
+        }
+        
+        return uniqueLinks.toArray(new String[0]);
+    }
+}
